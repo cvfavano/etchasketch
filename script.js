@@ -1,30 +1,34 @@
 const container = document.querySelector('.container');
-function createBoard(number, callback) {
+
+
+function createBoard(number,  callback) {
     
     const div = document.createElement('div');
     container.appendChild(div).classList.add('square');
-    const copiedDiv = document.querySelector('.square');
 
-    createRow(number);
+    let i = 0;
+    do{
+        createSquares(number);
+        i++;
+    }
+    while(i < number);
+    
     callback();
-    
-    
 }
 
-
-function calculateSquareWidth(num){
-    let squareWidth = Math.floor(960 / num);
-    container.style.width = squareWidth + 'px';
+function calculateWidth(number) {
+    return squareWidth = Math.floor(960 / (number+2));
 }
 
-//create 
-function createRow(num){
-
-    for(let i = 0; i < number; i++) {
+function createSquares(num){
+    const copiedDiv = document.querySelector('.square');
+    let squareWidth = calculateWidth(num);
+    for (let i = 0; i < num; i++){
         const clone = copiedDiv.cloneNode(false);
         container.appendChild(clone);
+        clone.style.width = squareWidth + 'px';
+        clone.style.height = squareWidth + 'px';
     }
- 
 }
 
 function changeColor(){
@@ -34,4 +38,4 @@ function changeColor(){
        event.target.style.backgroundColor = '#000'));
 }   
    
-createBoard(16, changeColor);
+createBoard(16,  changeColor);    
