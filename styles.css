@@ -2,6 +2,7 @@ body {
     font-family: 'Open Sans', sans-serif;
     font-family: 'Special Elite', cursive;
     background: #eee;
+    margin: 0 0 30px 0;
 }
 .canvas {
     width: 500px;
@@ -11,11 +12,13 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     background: #fff;
+    border: 1px solid #ccc;
 }
 
 .row {
     display: flex;
-    padding: 30px;
+    margin-bottom: 30px;
+    padding: 15px;
 }
 
 
