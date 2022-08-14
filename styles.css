@@ -1,12 +1,11 @@
 body {
     font-family: 'Open Sans', sans-serif;
-    font-family: 'Special Elite', cursive;
     background: #eee;
     margin: 0 0 30px 0;
 }
 .canvas {
-    width: 500px;
-    max-height: 500px;
+    width: 600px;
+    max-height: 600px;
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
@@ -19,10 +18,16 @@ body {
     display: flex;
     margin-bottom: 30px;
     padding: 15px;
+    background: #ccc;
 }
 
 
 .row > * {
-    padding: 10px;
+    padding: 1px 4px;
     margin: 10px;
+}
+
+button {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
 }

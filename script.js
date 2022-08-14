@@ -26,7 +26,7 @@ function createSquares(num){
 }
 
 function styleSquares(num){
-    const squareWidth = 500/num;
+    const squareWidth = 600/num;
     const copiedDiv = document.querySelectorAll('.square');
    
     copiedDiv.forEach(div  => {
@@ -36,15 +36,23 @@ function styleSquares(num){
 }
 
 function changeColor(){
-
     //get color, default is black
     const targets = document.querySelectorAll('.square');
     targets.forEach(target => target.addEventListener('mouseover', (event) => 
-       event.target.style.backgroundColor = document.getElementById('favcolor').value ));
+       event.target.style.backgroundColor = document.getElementById('favColor').value ));
 
 }   
 
-document.querySelector('.changeGrid').addEventListener('click', changePixelSize);
+function changeEraser(){
+    const targets = document.querySelectorAll('.square');
+    targets.forEach(target => target.addEventListener('mouseover', (event) => 
+       event.target.style.backgroundColor = '#fff'));
+
+}   
+function eraseAll() {
+    const targets = document.querySelectorAll('.square');
+    targets.forEach(target =>  target.style.backgroundColor = '#fff');
+}
 
 function clearBoard() {
     document.querySelector('.canvas').innerHTML = '';
@@ -63,3 +71,8 @@ function changePixelSize() {
 }
    
 createBoard(16,  changeColor);  
+
+
+document.querySelector('.changeGrid').addEventListener('click', changePixelSize);
+document.querySelector('.erase').addEventListener('click', changeEraser);
+document.querySelector('.clearAll').addEventListener('click',eraseAll);
