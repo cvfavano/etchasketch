@@ -1,5 +1,6 @@
 const canvas = document.querySelector('.canvas');
 
+
 function createBoard(number,  callback) {
     let i = 0;
     do{
@@ -18,7 +19,7 @@ function createSquares(num){
   
     const copiedDiv = document.querySelector('.square');
 
-    //(num-1) appended clone node is first block not in loop
+    //(num-1) appended clone node is first block not counted in loop
     for (let i = 0; i < (num-1); i++){
         const clone = copiedDiv.cloneNode(false);
         canvas.appendChild(clone);
@@ -36,21 +37,20 @@ function styleSquares(num){
 }
 
 function changeColor(){
+    let targets = document.querySelectorAll('.square');
     //get color, default is black
-    const targets = document.querySelectorAll('.square');
     targets.forEach(target => target.addEventListener('mouseover', (event) => 
        event.target.style.backgroundColor = document.getElementById('favColor').value ));
-
 }   
 
 function changeEraser(){
-    const targets = document.querySelectorAll('.square');
+    let targets = document.querySelectorAll('.square');
     targets.forEach(target => target.addEventListener('mouseover', (event) => 
        event.target.style.backgroundColor = '#fff'));
 
 }   
 function eraseAll() {
-    const targets = document.querySelectorAll('.square');
+    let targets = document.querySelectorAll('.square');
     targets.forEach(target =>  target.style.backgroundColor = '#fff');
 }
 
@@ -61,8 +61,12 @@ function clearBoard() {
 function changePixelSize() {
    let px = prompt('Enter number up 100:');
 
-    if(px > 100 || isNaN(px)) {
+    if(px > 100 || isNaN(px) ) {
         prompt('Please enter less than or equal to 100:');
+    }
+
+    if(px === null || px === '') {
+        return;
     }
 
    pixelNum = parseInt(px)
@@ -76,3 +80,4 @@ createBoard(16,  changeColor);
 document.querySelector('.changeGrid').addEventListener('click', changePixelSize);
 document.querySelector('.erase').addEventListener('click', changeEraser);
 document.querySelector('.clearAll').addEventListener('click',eraseAll);
+document.querySelector('#favColor').addEventListener('click', changeColor);
