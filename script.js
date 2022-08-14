@@ -36,10 +36,12 @@ function styleSquares(num){
 }
 
 function changeColor(){
+
+    //get color, default is black
     const targets = document.querySelectorAll('.square');
-    
-    targets.forEach(target => target.addEventListener("mouseover", (event) => 
-       event.target.style.backgroundColor = '#000'));
+    targets.forEach(target => target.addEventListener('mouseover', (event) => 
+       event.target.style.backgroundColor = document.getElementById('favcolor').value ));
+
 }   
 
 document.querySelector('.changeGrid').addEventListener('click', changePixelSize);
