@@ -3,12 +3,10 @@ body {
     font-family: 'Special Elite', cursive;
 }
 .container {
-    width: 700px;
+    width: 500px;
+    max-height: 500px;
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-}
-.square {
-    border:1px solid #eee;
 }

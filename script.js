@@ -1,10 +1,6 @@
 const container = document.querySelector('.container');
 
-
 function createBoard(number,  callback) {
-    const div = document.createElement('div');
-    container.appendChild(div).classList.add('square');
-    
     let i = 0;
     do{
         createSquares( number);
@@ -19,19 +15,24 @@ function createBoard(number,  callback) {
 
 
 function createSquares( num){
-
+    const div = document.createElement('div');
+    container.appendChild(div).classList.add('square');
+  
     const copiedDiv = document.querySelector('.square');
 
-    
-    for (let i = 0; i < num; i++){
+    //(num-1) appended clone node is first block not in loop
+    for (let i = 0; i < (num-1); i++){
         const clone = copiedDiv.cloneNode(false);
         container.appendChild(clone);
+        clone.innerHTML = i;
+        console.log(i);
     }
+    copiedDiv.style.fontSize = "8px";
 }
 
 function styleSquares(num){
-    let squareWidth = 700/(num+2);
-  
+    const squareWidthWithBorder = 500/(num+2);
+    const squareWidth = 500/num;
     const copiedDiv = document.querySelectorAll('.square');
    
     copiedDiv.forEach(div  => {
@@ -56,9 +57,10 @@ function clearBoard() {
 function changePixelSize() {
    let px = prompt('Enter number up 100:');
 
-   if(px > 100) {
-    prompt('Please enter less than or equalt o 100:');
+   if(px > 100 || isNaN(px)) {
+    prompt('Please enter less than or equal to 100:');
    }
+
    pixelNum = parseInt(px)
    clearBoard();
    createBoard(pixelNum,  changeColor); 
