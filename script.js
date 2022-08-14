@@ -17,7 +17,7 @@ function createBoard(number,  callback) {
 }
 
 function calculateWidth(number) {
-    return squareWidth = Math.floor(960 / (number+2));
+    return squareWidth = 700 / (number+2);
 }
 
 function createSquares(num){
