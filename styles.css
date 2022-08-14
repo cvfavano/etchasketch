@@ -1,0 +1,16 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-family: 'Special Elite', cursive;
+}
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 960px;
+    margin: 0 auto;
+}
+.square {
+    display: flex;
+    min-height: 10px;
+    min-width: 10px;
+    border:1px solid #eee;
+}
