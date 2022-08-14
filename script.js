@@ -1,4 +1,4 @@
-const container = document.querySelector('.container');
+const canvas = document.querySelector('.canvas');
 
 function createBoard(number,  callback) {
     let i = 0;
@@ -14,14 +14,14 @@ function createBoard(number,  callback) {
 
 function createSquares(num){
     const div = document.createElement('div');
-    container.appendChild(div).classList.add('square');
+    canvas.appendChild(div).classList.add('square');
   
     const copiedDiv = document.querySelector('.square');
 
     //(num-1) appended clone node is first block not in loop
     for (let i = 0; i < (num-1); i++){
         const clone = copiedDiv.cloneNode(false);
-        container.appendChild(clone);
+        canvas.appendChild(clone);
     }
 }
 
@@ -47,7 +47,7 @@ function changeColor(){
 document.querySelector('.changeGrid').addEventListener('click', changePixelSize);
 
 function clearBoard() {
-    document.querySelector('.container').innerHTML = '';
+    document.querySelector('.canvas').innerHTML = '';
 }
 
 function changePixelSize() {
