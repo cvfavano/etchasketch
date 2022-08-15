@@ -90,26 +90,26 @@ function calculateColor(color){
      r = Math.floor(rgb[0] - (rgb[0] * (.10)));
      g = Math.floor(rgb[1] - (rgb[1] * (.10)));
      b = Math.floor(rgb[2] -(rgb[2] * (.10)));
-
+    if (r < 0 ) {r = 0;}
+    if (g < 0 ) {g = 0;}
+    if (b < 0 ) {b = 0;}
+    console.log(`${r} ${g} ${b}`);
     return  `RGB(${r},${g},${b})`;
 }
 
+
 function setColor(color) {
+     let targets = document.querySelectorAll('.square');
+        targets.forEach(target => target.addEventListener('mousemove', 
+            function backgroundChange(e) {
+                e.target.style.backgroundColor =  color;     
+                let newColor = calculateColor(color);
+                color = newColor;
+            }));
+    }
 
-    let regex = /\d+/g;
-    var rgb = color.match(regex);
-    
-            let targets = document.querySelectorAll('.square');
-            targets.forEach(target => target.addEventListener('mouseover', (event) => 
-               event.target.style.backgroundColor = color));
-            // targets.forEach(target => target.addEventListener('mouseleave',(event) => 
-        // event.target.style.backgroundColor = calculateColor(color)));    
-        // }
-    // while(rgb[0] != 0 || rgb[1] != 0 || rgb[2] != 0 )
-}
-   
 
-createBoard(16,  changeColor);  
+createBoard(80,  changeColor);  
 
 document.querySelector('.random').addEventListener('click', randomizeColor);
 document.querySelector('.changeGrid').addEventListener('click', changePixelSize);
