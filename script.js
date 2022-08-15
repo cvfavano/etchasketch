@@ -1,16 +1,15 @@
 const canvas = document.querySelector('.canvas');
 
-
-function createBoard(number,  callback) {
+function createBoard(number, color) {
     let i = 0;
     do{
-        createSquares( number);
+        createSquares(number);
         i++;
     }
     while(i < number);
     
     styleSquares(number);
-    callback();
+    color();
 }
 
 function createSquares(num){
@@ -47,8 +46,8 @@ function changeEraser(){
     let targets = document.querySelectorAll('.square');
     targets.forEach(target => target.addEventListener('mouseover', (event) => 
        event.target.style.backgroundColor = '#fff'));
-
 }   
+
 function eraseAll() {
     let targets = document.querySelectorAll('.square');
     targets.forEach(target =>  target.style.backgroundColor = '#fff');
@@ -74,9 +73,45 @@ function changePixelSize() {
    createBoard(pixelNum,  changeColor); 
 }
    
+function randomizeColor(){
+    let r = Math.floor(Math.random() * 256);
+    let g = Math.floor(Math.random() * 256);
+    let b = Math.floor(Math.random() * 256);
+
+    let randomRGB = `RGB(${r},${g},${b})`;
+    setColor(randomRGB);
+}
+
+function calculateColor(color){
+    let r, g, b;
+    let regex = /\d+/g;
+    var rgb = color.match(regex);
+
+     r = Math.floor(rgb[0] - (rgb[0] * (.10)));
+     g = Math.floor(rgb[1] - (rgb[1] * (.10)));
+     b = Math.floor(rgb[2] -(rgb[2] * (.10)));
+
+    return  `RGB(${r},${g},${b})`;
+}
+
+function setColor(color) {
+
+    let regex = /\d+/g;
+    var rgb = color.match(regex);
+    
+            let targets = document.querySelectorAll('.square');
+            targets.forEach(target => target.addEventListener('mouseover', (event) => 
+               event.target.style.backgroundColor = color));
+            // targets.forEach(target => target.addEventListener('mouseleave',(event) => 
+        // event.target.style.backgroundColor = calculateColor(color)));    
+        // }
+    // while(rgb[0] != 0 || rgb[1] != 0 || rgb[2] != 0 )
+}
+   
+
 createBoard(16,  changeColor);  
 
-
+document.querySelector('.random').addEventListener('click', randomizeColor);
 document.querySelector('.changeGrid').addEventListener('click', changePixelSize);
 document.querySelector('.erase').addEventListener('click', changeEraser);
 document.querySelector('.clearAll').addEventListener('click',eraseAll);
