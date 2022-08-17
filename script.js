@@ -93,8 +93,7 @@ function randomizeColor(){
     let randomRGB = `RGB(${r},${g},${b})`;
     return randomRGB;
 }
-function backgroundChange( color) {
-   // let color = randomizeColor();
+function backgroundChange(e, color) {
     const colorSquare = window.getComputedStyle(e.target).filter;
  
     if(colorSquare == 'none' ) { 
@@ -111,7 +110,7 @@ function backgroundChange( color) {
 function setColor() {
     let color= randomizeColor();
     let targets = document.querySelectorAll('.square');
-    targets.forEach(target => target.addEventListener('mouseover',  backgroundChange));
+    targets.forEach(target => target.addEventListener('mouseover', (event) => backgroundChange(event, color)));
     targets.forEach( target => target.setAttribute('randomizeListener',true));
 }
 
