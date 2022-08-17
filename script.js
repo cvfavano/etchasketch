@@ -36,26 +36,23 @@ function styleSquares(num){
 }
 
 function changeColor(){
-    checkRandomizeListener();
+    checkListener();
     let targets = document.querySelectorAll('.square');
-
-
-
     //get color, default is black
     targets.forEach(target => target.addEventListener('mouseover', (event) => 
        event.target.style.backgroundColor = document.getElementById('favColor').value ));
 }   
 
 function changeEraser(){
-    checkRandomizeListener();
+    checkListener();
     let targets = document.querySelectorAll('.square');
     targets.forEach(target => 
-        target.addEventListener('mouseover', (event) => event.target.style.backgroundColor = '#fff')
-    )
+        target.addEventListener('mouseover', (event) => event.target.style.backgroundColor = '#fff'));
+   
 }   
 
 function eraseAll() {
-    checkRandomizeListener();
+    checkListener();
     let targets = document.querySelectorAll('.square');
     
     targets.forEach(target => 
@@ -64,12 +61,12 @@ function eraseAll() {
 }
 
 function clearBoard() {
-    checkRandomizeListener();
+    checkListener();
     document.querySelector('.canvas').innerHTML = '';
 }
 
 function changePixelSize() {
-    checkRandomizeListener();
+    checkListener();
    let px = prompt('Enter number up 100:');
 
     if(px > 100 || isNaN(px) ) {
@@ -93,41 +90,83 @@ function randomizeColor(){
     let randomRGB = `RGB(${r},${g},${b})`;
     return randomRGB;
 }
-function backgroundChange(e, color) {
-    const colorSquare = window.getComputedStyle(e.target).filter;
- 
-    if(colorSquare == 'none' ) { 
-        e.target.style.backgroundColor = color; 
-        e.target.style.filter = 'brightness(1)';
+   
+function getRGBValues(color, isBrighten){
+    let regex = /\d+/g;
+    let colors = color.match(regex);
+   
+    if(isBrighten){
+        for(let i = 0; i < colors.length; i++){
+            colors[i] = Math.floor(parseInt(colors[i]) + (parseInt(colors[i]) * .10));
+            if (parseInt(colors[i]) > 255) {
+                colors[i]= 255;
+            }
+        colors.splice(i, i, colors[i]);
+        }
     }
-    else {
-        e.target.style.backgroundColor = color; 
-        let regex = /\d+/g;
-        let number = colorSquare.match(regex).join('.');
-        e.target.style.filter = 'brightness(' + (number - 0.10) +')';
-    }
-}
-function setColor() {
-    let color= randomizeColor();
-    let targets = document.querySelectorAll('.square');
-    targets.forEach(target => target.addEventListener('mouseover', (event) => backgroundChange(event, color)));
-    targets.forEach( target => target.setAttribute('randomizeListener',true));
+    else{
+        for(let i = 0; i < colors.length; i++){
+            colors[i] = Math.floor(colors[i] - (parseInt(colors[i]) * .10));
+            if (parseInt(colors[i]) < 0) {
+                colors[i] = 0;
+            }
+            colors.splice(i, i, colors[i]);
+        }
+    } 
+    console.log(`RGB('${colors[0]}','${colors[1]}','${colors[2]}')`);
+        return `RGB('${colors[0]}','${colors[1]}','${colors[2]}')`;
+
 }
 
-function checkRandomizeListener(){
+
+
+
+
+function darkenFilter() {
+    let color= randomizeColor();
+    let targets = document.querySelectorAll('.square');
+    targets.forEach(target => target.addEventListener('mouseover', (event) => {
+     
+                color = getRGBValues(color, 0);
+                
+                event.target.style.backgroundColor = '"' + color +'"' ;
+                console.log(color);
+                console.log(event.target.style.backgroundColor = '"' + color +'"' );
+            }
+            ));
+    };
+            
+
+
+
+
+function randomColor() {
+    let color= randomizeColor();
+    let targets = document.querySelectorAll('.square');
+
+    targets.forEach(target => target.addEventListener('mouseover', (event) => 
+    //check if rgb is not 0
+
+
+        event.target.style.backgroundColor = color));
+
+}
+
+function checkListener(){
     const targets = document.querySelectorAll('.square');
  
-    if(document.querySelector('.square').hasAttribute('randomizeListener')){
-        targets.forEach(target => target.removeEventListener('mouseover',  backgroundChange));
-        targets.forEach(target =>target.removeAttribute('randomizeListener'));
-        targets.forEach(target =>target.style.removeProperty('filter'));   
+    if(document.querySelector('.square').hasAttribute('filterlistener')){
+        targets.forEach(target => target.removeEventListener('mouseover',  darkenFilter));
+        targets.forEach(target =>target.removeAttribute('filterlistener'));  
     }
 }
 
 createBoard(30,  changeColor);  
 
-document.querySelector('.random').addEventListener('click', setColor);
+document.querySelector('.random').addEventListener('click', randomColor);
+//document.querySelector('.darken').addEventListener('click', darkenFilter);
+//document.querySelector('.lighten').addEventListener('click', lightenFilter);
 document.querySelector('.changeGrid').addEventListener('click', changePixelSize);
 document.querySelector('.erase').addEventListener('click', changeEraser);
 document.querySelector('.clearAll').addEventListener('click',eraseAll);
-document.querySelector('#favColor').addEventListener('click', changeColor);
+ document.querySelector('#favColor').addEventListener('click', changeColor);
