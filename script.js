@@ -36,37 +36,38 @@ function styleSquares(num){
 }
 
 function changeColor(){
-    checkListener();
+    trackListeners("changeColor");
+  //  checkListeners();
     let targets = document.querySelectorAll('.square');
     //get color, default is black
     targets.forEach(target => target.addEventListener('mouseover', (event) => 
        event.target.style.backgroundColor = document.getElementById('favColor').value ));
 }   
 
-function changeEraser(){
-    checkListener();
+function erase(){
     let targets = document.querySelectorAll('.square');
     targets.forEach(target => 
-        target.addEventListener('mouseover', (event) => event.target.style.backgroundColor = '#fff'));
+        target.addEventListener('mouseover', (event) => {
+        event.target.style.backgroundColor = '#fff';
+        event.target.className = 'square'; 
+}));
    
 }   
 
 function eraseAll() {
-    checkListener();
     let targets = document.querySelectorAll('.square');
     
-    targets.forEach(target => 
-        target.style.backgroundColor = '#fff', 
-    );
+    targets.forEach(target => {
+        target.style.backgroundColor = '#fff';
+        target.className = 'square';
+    })
 }
 
 function clearBoard() {
-    checkListener();
     document.querySelector('.canvas').innerHTML = '';
 }
 
 function changePixelSize() {
-    checkListener();
    let px = prompt('Enter number up 100:');
 
     if(px > 100 || isNaN(px) ) {
@@ -91,82 +92,104 @@ function randomizeColor(){
     return randomRGB;
 }
    
-function getRGBValues(color, isBrighten){
+function getRGBValues(color, isBrighten, number){
     let regex = /\d+/g;
     let colors = color.match(regex);
    
     if(isBrighten){
         for(let i = 0; i < colors.length; i++){
-            colors[i] = Math.floor(parseInt(colors[i]) + (parseInt(colors[i]) * .10));
+            colors[i] = Math.floor(parseInt(colors[i]) + (parseInt(colors[i]) * (number * .10)));
             if (parseInt(colors[i]) > 255) {
                 colors[i]= 255;
             }
-        colors.splice(i, i, colors[i]);
+        colors.splice(i, 1, colors[i]);
         }
     }
     else{
         for(let i = 0; i < colors.length; i++){
-            colors[i] = Math.floor(colors[i] - (parseInt(colors[i]) * .10));
+            colors[i] = Math.floor(parseInt(colors[i]) - (parseInt(colors[i]) * (number * .10)));
             if (parseInt(colors[i]) < 0) {
                 colors[i] = 0;
             }
-            colors.splice(i, i, colors[i]);
+            colors.splice(i, 1, colors[i]);
         }
     } 
-    console.log(`RGB('${colors[0]}','${colors[1]}','${colors[2]}')`);
-        return `RGB('${colors[0]}','${colors[1]}','${colors[2]}')`;
+        return `RGB(${colors[0]},${colors[1]},${colors[2]})`;
 
 }
+function filters(event){
+    let color = document.querySelector('.darken').getAttribute('value');
+    console.log(color);
+        if(event.target.className == 'square'){
+            event.target.style.backgroundColor =  color;
+            event.target.className = 'square filter-0';
+           
+        }
+        else{
+        
+            let regex = /\d+/g;
+            let number = parseInt(event.target.className.match(regex));
+         //   originalColor;
+          //  console.log(number);
+            if (number < 10 ){
+                
+                event.target.className = "'square filter-" + ++number + "'";
+            //    console.log(number);
+    
+            event.target.style.backgroundColor  = getRGBValues(color, 0, number);
+            }
 
-
-
-
+        }
+}
 
 function darkenFilter() {
-    let color= randomizeColor();
+    trackListeners("darkenFilter");
+    // checkListeners();
+    let color = randomizeColor();
     let targets = document.querySelectorAll('.square');
-    targets.forEach(target => target.addEventListener('mouseover', (event) => {
-     
-                color = getRGBValues(color, 0);
-                
-                event.target.style.backgroundColor = '"' + color +'"' ;
-                console.log(color);
-                console.log(event.target.style.backgroundColor = '"' + color +'"' );
-            }
-            ));
-    };
-            
-
-
-
-
+    document.querySelector('.darken').setAttribute('value', color);
+    targets.forEach(target => target.addEventListener('mouseover', filters)
+    )
+}   
+    
 function randomColor() {
+    trackListeners("randomColor");
+    // checkListeners();
     let color= randomizeColor();
     let targets = document.querySelectorAll('.square');
 
     targets.forEach(target => target.addEventListener('mouseover', (event) => 
-    //check if rgb is not 0
-
-
         event.target.style.backgroundColor = color));
 
 }
 
-function checkListener(){
-    const targets = document.querySelectorAll('.square');
- 
-    if(document.querySelector('.square').hasAttribute('filterlistener')){
-        targets.forEach(target => target.removeEventListener('mouseover',  darkenFilter));
-        targets.forEach(target =>target.removeAttribute('filterlistener'));  
-    }
+// function checkListeners(){
+//     const targets = document.querySelectorAll('.square');
+//     const target = document.querySelector('.square');
+//     const attrValues = target.getAttributeNames();
+//    // arr1.filter(item => !arr2.includes(item));
+//     const listeners = ['changecolor', 'darkenfilter','randomcolor', ];
+//     let values = attrValues.filter(item => listeners.includes(item));
+//         console.log(values);
+
+//     for(let i = 0; i < values.length; i++) {
+//         targets.forEach(el => el.removeEventListener('mouseover', values[i]));
+//     }
+// }
+
+function trackListeners(listener) {
+    const square = document.querySelector('.square');
+    square.setAttribute(listener, "true"); 
+
 }
 
-createBoard(30,  changeColor);  
+createBoard(30,  darkenFilter); 
+
 
 document.querySelector('.random').addEventListener('click', randomColor);
-//document.querySelector('.darken').addEventListener('click', darkenFilter);
+document.querySelector('.darken').addEventListener('click', darkenFilter);
 //document.querySelector('.lighten').addEventListener('click', lightenFilter);
 document.querySelector('.changeGrid').addEventListener('click', changePixelSize);
-document.querySelector('.erase').addEventListener('click', changeEraser);
+document.querySelector('.erase').addEventListener('click', erase);
 document.querySelector('.clearAll').addEventListener('click',eraseAll);
  document.querySelector('#favColor').addEventListener('click', changeColor);
