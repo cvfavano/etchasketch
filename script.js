@@ -1,6 +1,6 @@
 const canvas = document.querySelector('.canvas');
 
-let color = 'black';
+let color = 'RGB(0,0,0)';
 let stat;
 
 function createBoard(number) {
@@ -55,7 +55,7 @@ function darkenFilter(e)  {
             let regex = /\d+/g;
             let colors = color.match(regex);
             for(let i = 0; i < colors.length; i++){
-                colors[i] = Math.floor(parseInt(colors[i]) - (parseInt(colors[i]) * (number * .10)));
+                colors[i] = Math.floor(parseInt(colors[i]) - (parseInt(colors[i]) * (number * .005)));
                 if (parseInt(colors[i]) < 0) {
                     colors[i] = 0;
                 }
@@ -66,42 +66,84 @@ function darkenFilter(e)  {
     }
 }
 
+function lightenFilter(e)  {
+    if(e.target.className == 'square'){ 
+        e.target.className = 'square filter-10';
+        color = document.querySelector('.lighten').value;
+    }
+
+    else{
+        let regex = /\d+/g;
+        let number = parseInt(e.target.className.match(regex));
+    
+        if (number > 0 ){    
+            e.target.className = "square filter-" + --number ;
+        
+            let regex = /\d+/g;
+            let colors = color.match(regex);
+            for(let i = 0; i < colors.length; i++){
+                colors[i] = Math.floor(parseInt(colors[i]) + (parseInt(colors[i]) * (number * .005)));
+                if (parseInt(colors[i]) > 255) {
+                    colors[i] = 255;
+                }
+                colors.splice(i, 1, colors[i]);
+            }
+            color = `RGB(${colors[0]},${colors[1]},${colors[2]})`;
+        }    
+    }
+}
+
 
 function changeColor(e){
-     if(stat=='darken') {
+
+    if(stat=='darken') {
         darkenFilter(e);
+    }
+
+    if(stat=='lighten') {
+        lightenFilter(e);
     }
 
     e.target.style.backgroundColor = color;
 }
 
 function colorPicker(){
+    stat = null;
     color = document.getElementById('favColor').value;
 }   
-
-function darkenClick(){
+function returnRandomColor(){
     let r = Math.floor(Math.random() * 256);
     let g = Math.floor(Math.random() * 256);
     let b = Math.floor(Math.random() * 256);
 
-    let randomRGB = `RGB(${r},${g},${b})`;
-   
+    return `RGB(${r},${g},${b})`;
+}
+
+function darkenClick(){
+    let randomRGB = returnRandomColor();
     document.querySelector('.darken').setAttribute('value', randomRGB);
     stat ='darken';
 }
-   
+function lightenClick(){
+    let randomRGB = returnRandomColor();
+    document.querySelector('.lighten').setAttribute('value', randomRGB);
+    stat = 'lighten';
+}
+
 function eraser(){
     stat = null;
-    let targets = document.querySelectorAll('.canvas div');
-    targets.forEach(item  => item.className='square');
-    color = '#fff';
+    color = 'RGB(255,255,255)';
 }   
 
-
+function eraseAll(){
+    let targets = document.querySelectorAll('.canvas div');
+    targets.forEach(item  => item.style.backgroundColor= 'RGB(255,255,255)',
+    item.className ='square');
+}
 
 
 function clearBoard() {
-    document.querySelector('.canvas').innerHTML = '';
+    document.querySelector('.canvas div').innerHTML = '';
 }
 
 function changePixelSize() {
@@ -126,25 +168,13 @@ function randomizeColor(){
     let b = Math.floor(Math.random() * 256);
 
     let randomRGB = `RGB(${r},${g},${b})`;
+    stat = null;
     color = randomRGB;
 }
 function erase() {
     color = '#fff';
 }   
-// function getRGBValues(color, isBrighten, number){
-//     let regex = /\d+/g;
-//     let colors = color.match(regex);
-  
-//     if(isBrighten){
-//         for(let i = 0; i < colors.length; i++){
-//             colors[i] = Math.floor(parseInt(colors[i]) + (parseInt(colors[i]) * (number * .10)));
-//             if (parseInt(colors[i]) > 255) {
-//                 colors[i]= 255;
-//             }
-//         colors.splice(i, 1, colors[i]);
-//         }
-//     }
-// }
+
 
     
 
@@ -155,8 +185,9 @@ createBoard(30);
 
 document.querySelector('.random').addEventListener('click', randomizeColor);
 document.querySelector('.darken').addEventListener('click', darkenClick);
+document.querySelector('.lighten').addEventListener('click', lightenClick);
 document.querySelector('.erase').addEventListener('click', eraser);
 
 document.querySelector('#favColor').addEventListener('input', colorPicker);
-document.querySelector('.clearAll').addEventListener('click', clearBoard);
+document.querySelector('.clearAll').addEventListener('click', eraseAll);
 document.querySelector('.changeGrid').addEventListener('click', changePixelSize);
