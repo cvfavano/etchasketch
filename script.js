@@ -95,6 +95,8 @@ function lightenFilter(e)  {
 
 
 function changeColor(e){
+    let targets = document.querySelectorAll('.canvas div');
+    targets.forEach(item  =>   item.className ='square');
 
     if(stat=='darken') {
         darkenFilter(e);
@@ -131,14 +133,16 @@ function lightenClick(){
 }
 
 function eraser(){
+    targets.forEach(item  =>   item.className ='square');
     stat = null;
     color = 'RGB(255,255,255)';
 }   
 
 function eraseAll(){
-    let targets = document.querySelectorAll('.canvas div');
-    targets.forEach(item  => item.style.backgroundColor= 'RGB(255,255,255)',
-    item.className ='square');
+    const targets = document.querySelectorAll('.canvas div');
+    targets.forEach(item  => {
+        item.style.backgroundColor= 'RGB(255,255,255)';
+        item.className ='square'; }) 
 }
 
 
@@ -180,7 +184,7 @@ function erase() {
 
 
 
-createBoard(30); 
+createBoard(100); 
 
 
 document.querySelector('.random').addEventListener('click', randomizeColor);
