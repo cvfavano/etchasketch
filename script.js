@@ -146,9 +146,6 @@ function eraseAll(){
 }
 
 
-function clearBoard() {
-    document.querySelector('.canvas div').innerHTML = '';
-}
 
 function changePixelSize() {
    let px = prompt('Enter number up 100:');
@@ -162,7 +159,7 @@ function changePixelSize() {
     }
 
    pixelNum = parseInt(px)
-   clearBoard();
+   eraseAll();
    createBoard(pixelNum); 
 }
    
