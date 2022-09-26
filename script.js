@@ -137,8 +137,8 @@ function eraser(){
 
 function eraseAll(){
     let targets = document.querySelectorAll('.canvas div');
-    targets.forEach(item  => item.style.backgroundColor= 'RGB(255,255,255)',
-    item.className ='square');
+    targets.forEach(item  => {item.style.backgroundColor= 'RGB(255,255,255)';
+    item.className ='square';});
 }
 
 
