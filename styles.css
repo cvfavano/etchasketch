@@ -8,9 +8,10 @@ body {
     margin: 30px auto;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: center; 
     background: #fff;
     border: 1px solid #ccc;
+    overflow: hidden;
 }
 
 .row {

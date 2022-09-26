@@ -49,13 +49,13 @@ function darkenFilter(e)  {
         let regex = /\d+/g;
         let number = parseInt(e.target.className.match(regex));
     
-        if (number < 10 ){    
+        if (number < 25 ){    
             e.target.className = "square filter-" + ++number ;
         
             let regex = /\d+/g;
             let colors = color.match(regex);
             for(let i = 0; i < colors.length; i++){
-                colors[i] = Math.floor(parseInt(colors[i]) - (parseInt(colors[i]) * (number * .005)));
+                colors[i] = Math.floor(parseInt(colors[i]) - (parseInt(colors[i]) * (number * .0005)));
                 if (parseInt(colors[i]) < 0) {
                     colors[i] = 0;
                 }
@@ -63,33 +63,37 @@ function darkenFilter(e)  {
             }
             color = `RGB(${colors[0]},${colors[1]},${colors[2]})`;
         }    
+      
     }
 }
 
 function lightenFilter(e)  {
     if(e.target.className == 'square'){ 
-        e.target.className = 'square filter-10';
+        e.target.className = 'square filter-25';
         color = document.querySelector('.lighten').value;
     }
 
     else{
         let regex = /\d+/g;
         let number = parseInt(e.target.className.match(regex));
-    
+    let colors = color.match(regex);
         if (number > 0 ){    
             e.target.className = "square filter-" + --number ;
         
             let regex = /\d+/g;
-            let colors = color.match(regex);
+            
             for(let i = 0; i < colors.length; i++){
-                colors[i] = Math.floor(parseInt(colors[i]) + (parseInt(colors[i]) * (number * .005)));
+                colors[i] = Math.floor(parseInt(colors[i]) + (parseInt(colors[i]) * (number * .0005)));
                 if (parseInt(colors[i]) > 255) {
                     colors[i] = 255;
                 }
                 colors.splice(i, 1, colors[i]);
             }
+        
             color = `RGB(${colors[0]},${colors[1]},${colors[2]})`;
-        }    
+        }   
+
+        
     }
 }
 
@@ -139,10 +143,9 @@ function eraser(){
 }   
 
 function eraseAll(){
-    const targets = document.querySelectorAll('.canvas div');
-    targets.forEach(item  => {
-        item.style.backgroundColor= 'RGB(255,255,255)';
-        item.className ='square'; }) 
+    let targets = document.querySelectorAll('.canvas div');
+    targets.forEach(item  => {item.style.backgroundColor= 'RGB(255,255,255)';
+    item.className ='square';});
 }
 
 
