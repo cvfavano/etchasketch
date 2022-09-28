@@ -48,7 +48,10 @@ function darkenFilter(e)  {
     else{
         let regex = /\d+/g;
         let number = parseInt(e.target.className.match(regex));
-    
+        
+        if (number == 25) {
+            return
+        }
         if (number < 25 ){    
             e.target.className = "square filter-" + ++number ;
         
@@ -77,8 +80,11 @@ function lightenFilter(e)  {
         let regex = /\d+/g;
         let number = parseInt(e.target.className.match(regex));
         let colors = color.match(regex);
+        if (number == 0) {
+            return;
+        }
         if (number > 0 ){    
-            e.target.className = "square filter-" + --number ;
+            
         
             let regex = /\d+/g;
             
