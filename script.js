@@ -141,6 +141,7 @@ function lightenClick(){
 }
 
 function eraser(){
+    let targets = document.querySelectorAll('.canvas div');
     targets.forEach(item  =>   item.className ='square');
     stat = null;
     color = 'RGB(255,255,255)';
