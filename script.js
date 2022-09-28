@@ -76,7 +76,7 @@ function lightenFilter(e)  {
     else{
         let regex = /\d+/g;
         let number = parseInt(e.target.className.match(regex));
-    let colors = color.match(regex);
+        let colors = color.match(regex);
         if (number > 0 ){    
             e.target.className = "square filter-" + --number ;
         
@@ -99,9 +99,7 @@ function lightenFilter(e)  {
 
 
 function changeColor(e){
-    let targets = document.querySelectorAll('.canvas div');
-    targets.forEach(item  =>   item.className ='square');
-
+   
     if(stat=='darken') {
         darkenFilter(e);
     }
